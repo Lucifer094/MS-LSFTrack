@@ -1,0 +1,11 @@
+name: Your-Dataset-Name
+data_root: "${MS_LSF_DATA_ROOT:-./data}/Your-Dataset-Name"
+unified_root: "${MS_LSF_OUTPUT_ROOT:-./outputs}/Your-Dataset-Name"
+det_version: your_detector_name
+detection_root: "${MS_LSF_DATA_ROOT:-./data}/Your-Dataset-Name/detecion_label"
+gt_root: "${MS_LSF_DATA_ROOT:-./data}/Your-Dataset-Name"
+split_root: "${MS_LSF_DATA_ROOT:-./data}/Your-Dataset-Name/splits"
+default_split: test
+point_dist_th: 3.0
+iou_th: 0.5
+notes: Template for the clean association-only dataset layout.

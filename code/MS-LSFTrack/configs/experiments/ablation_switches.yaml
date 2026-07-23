@@ -1,0 +1,35 @@
+# Paper-version ablation switches.
+# These settings match the frozen paper v1 results released with this code.
+variants:
+  single_scale_structure_only:
+    score_mode: structure
+    scale_mode: small
+    description: "Single-radius structure-only probe; use structure-radii-override to set 5/10/15/20/25/30."
+  multiscale_structure_only:
+    score_mode: structure
+    scale_mode: learned_density
+    structure_radii: [10, 15, 20]
+    density_prior_direction: normal
+    density_prior_lambda: 0.5
+    description: "Density-guided multi-scale structure-only setting."
+  final_asr_no_fusion_density:
+    score_mode: ambiguity_rerank
+    scale_mode: learned_density
+    structure_radii: [10, 15, 20]
+    density_prior_direction: normal
+    density_prior_lambda: 0.5
+    asr_density_gain: 0.0
+    description: "Final paper model: density only guides multi-scale structure; ASR fusion has no density gain."
+scale_modes:
+  - uniform
+  - small
+  - middle
+  - large
+  - learned
+  - density_only
+  - learned_density
+neighbor_modes:
+  radius:
+    description: "All detections inside each radius are local support points, capped only for memory."
+  knn:
+    description: "K nearest local support points per scale; used as an ablation, not as the default paper claim."

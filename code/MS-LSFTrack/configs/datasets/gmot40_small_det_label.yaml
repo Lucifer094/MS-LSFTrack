@@ -1,0 +1,11 @@
+name: GMOT-40-small-target
+data_root: "${MS_LSF_DATA_ROOT:-./data}/GMOT-40-small-target"
+unified_root: "${MS_LSF_OUTPUT_ROOT:-./outputs}/GMOT-40-small-target"
+det_version: det_label
+detection_root: "${MS_LSF_DATA_ROOT:-./data}/GMOT-40-small-target/detecion_label"
+gt_root: "${MS_LSF_DATA_ROOT:-./data}/GMOT-40-small-target"
+split_root: "${MS_LSF_DATA_ROOT:-./data}/GMOT-40-small-target/splits"
+default_split: test
+point_dist_th: 3.0
+iou_th: 0.5
+notes: Down-sampled GMOT-40 small-target benchmark. Uses det_label detections and TS-AMID-balanced train/val/test splits.
