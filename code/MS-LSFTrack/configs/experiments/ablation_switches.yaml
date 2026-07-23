@@ -1,5 +1,4 @@
-# Paper-version ablation switches.
-# These settings match the frozen paper v1 results released with this code.
+# Released ablation switches.
 variants:
   single_scale_structure_only:
     score_mode: structure
@@ -19,7 +18,7 @@ variants:
     density_prior_direction: normal
     density_prior_lambda: 0.5
     asr_density_gain: 0.0
-    description: "Final paper model: density only guides multi-scale structure; ASR fusion has no density gain."
+    description: "Released model: density guides multi-scale structure; ASR fusion has no density gain."
 scale_modes:
   - uniform
   - small
@@ -32,4 +31,4 @@ neighbor_modes:
   radius:
     description: "All detections inside each radius are local support points, capped only for memory."
   knn:
-    description: "K nearest local support points per scale; used as an ablation, not as the default paper claim."
+    description: "K nearest local support points per scale; used as an ablation."

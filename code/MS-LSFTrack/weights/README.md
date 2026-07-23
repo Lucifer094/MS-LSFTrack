@@ -31,7 +31,7 @@ python tools/run_baseline_trackers.py \
 If you want to prepare a different ReID weight, use:
 
 ```bash
-bash scripts/autodl_prepare_reid.sh <model_name_or_path>
+bash scripts/prepare_reid_weights.sh <model_name_or_path>
 ```
 
 or place the new checkpoint directly under:

@@ -222,7 +222,7 @@ def write_scene_lists(out_dir: Path, rows: list[dict], column: str, order: tuple
         (scene_dir / f"test_{level}.txt").write_text("\n".join(scenes) + "\n", encoding="utf-8")
 
 
-def plot_histograms(out_dir: Path, test_rows: list[dict], split_summary: list[dict]) -> None:
+def plot_histograms(out_dir: Path, dataset_name: str, test_rows: list[dict], split_summary: list[dict]) -> None:
     fig_dir = out_dir / "figures"
     fig_dir.mkdir(parents=True, exist_ok=True)
 
@@ -237,7 +237,7 @@ def plot_histograms(out_dir: Path, test_rows: list[dict], split_summary: list[di
         plt.text(x, plt.ylim()[1] * 0.92, label, rotation=90, va="top", ha="right", fontsize=8)
     plt.xlabel("Box-based TS-AMID (px)")
     plt.ylabel("Scenes")
-    plt.title("IR-DMSTrack Test TS-AMID Distribution")
+    plt.title(f"{dataset_name} Test TS-AMID Distribution")
     plt.tight_layout()
     plt.savefig(fig_dir / "test_ts_amid_box_hist.png", dpi=200)
     plt.close()
@@ -249,7 +249,7 @@ def plot_histograms(out_dir: Path, test_rows: list[dict], split_summary: list[di
         plt.text(x, plt.ylim()[1] * 0.92, f"{x:g}x", rotation=90, va="top", ha="right", fontsize=8)
     plt.xlabel("TS-AMID / mean sqrt(w*h)")
     plt.ylabel("Scenes")
-    plt.title("IR-DMSTrack Test Normalized Scene Difficulty")
+    plt.title(f"{dataset_name} Test Normalized Scene Difficulty")
     plt.tight_layout()
     plt.savefig(fig_dir / "test_ts_amid_over_target_size_hist.png", dpi=200)
     plt.close()
@@ -260,7 +260,7 @@ def plot_histograms(out_dir: Path, test_rows: list[dict], split_summary: list[di
     plt.figure(figsize=(6.5, 4.2))
     bars = plt.bar(labels, values, color=["#D95F02", "#7570B3", "#1B9E77"])
     plt.ylabel("Scenes")
-    plt.title("IR-DMSTrack Test Difficulty Groups")
+    plt.title(f"{dataset_name} Test Difficulty Groups")
     for bar, value in zip(bars, values):
         plt.text(bar.get_x() + bar.get_width() / 2.0, value + 0.5, str(value), ha="center", va="bottom")
     plt.tight_layout()
@@ -302,7 +302,12 @@ def plot_histograms(out_dir: Path, test_rows: list[dict], split_summary: list[di
     plt.close()
 
 
-def plot_box_size_distributions(out_dir: Path, gt_root: Path, scenes_by_split: dict[str, list[str]]) -> None:
+def plot_box_size_distributions(
+    out_dir: Path,
+    dataset_name: str,
+    gt_root: Path,
+    scenes_by_split: dict[str, list[str]],
+) -> None:
     fig_dir = out_dir / "figures"
     fig_dir.mkdir(parents=True, exist_ok=True)
 
@@ -330,7 +335,7 @@ def plot_box_size_distributions(out_dir: Path, gt_root: Path, scenes_by_split: d
             )
         plt.xlabel(xlabel)
         plt.ylabel("Density")
-        plt.title(f"IR-DMSTrack GT {xlabel} Distribution")
+        plt.title(f"{dataset_name} GT {xlabel} Distribution")
         plt.legend(frameon=False)
         plt.tight_layout()
         plt.savefig(fig_dir / filename, dpi=200)
@@ -344,7 +349,7 @@ def plot_box_size_distributions(out_dir: Path, gt_root: Path, scenes_by_split: d
     plt.colorbar(label="GT boxes")
     plt.xlabel("Box width (px)")
     plt.ylabel("Box height (px)")
-    plt.title("IR-DMSTrack Test Box Width-Height Distribution")
+    plt.title(f"{dataset_name} Test Box Width-Height Distribution")
     plt.tight_layout()
     plt.savefig(fig_dir / "test_box_width_height_heatmap.png", dpi=200)
     plt.close()
@@ -362,7 +367,7 @@ def plot_box_size_distributions(out_dir: Path, gt_root: Path, scenes_by_split: d
             parts[key].set_linewidth(1)
     plt.xticks(np.arange(1, len(labels) + 1), labels)
     plt.ylabel("Pixels")
-    plt.title("IR-DMSTrack Test Target Size Distribution")
+    plt.title(f"{dataset_name} Test Target Size Distribution")
     plt.tight_layout()
     plt.savefig(fig_dir / "test_target_size_violin.png", dpi=200)
     plt.close()
@@ -370,6 +375,7 @@ def plot_box_size_distributions(out_dir: Path, gt_root: Path, scenes_by_split: d
 
 def make_summary(
     out_dir: Path,
+    dataset_name: str,
     threshold: float,
     split_summary: list[dict],
     test_rows: list[dict],
@@ -381,7 +387,7 @@ def make_summary(
     }
 
     lines = [
-        "# IR-DMSTrack TS-AMID Difficulty Analysis",
+        f"# {dataset_name} TS-AMID Difficulty Analysis",
         "",
         "## Conventions",
         "",
@@ -537,9 +543,9 @@ def main() -> None:
     write_csv(out_dir / "ts_amid_box_size_split_summary.csv", split_summary, list(split_summary[0]))
     write_scene_lists(out_dir, test_rows, "difficulty_3", DIFFICULTY_3_ORDER)
     write_scene_lists(out_dir, test_rows, "difficulty_6", DIFFICULTY_6_ORDER)
-    plot_histograms(out_dir, test_rows, split_summary)
-    plot_box_size_distributions(out_dir, ds.gt_root, scenes_by_split)
-    make_summary(out_dir, test_mean_sqrt_area, split_summary, test_rows)
+    plot_histograms(out_dir, ds.name, test_rows, split_summary)
+    plot_box_size_distributions(out_dir, ds.name, ds.gt_root, scenes_by_split)
+    make_summary(out_dir, ds.name, test_mean_sqrt_area, split_summary, test_rows)
     print(f"[DONE] {out_dir}")
 
 

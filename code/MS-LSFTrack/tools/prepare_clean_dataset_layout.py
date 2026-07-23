@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import argparse
 import csv
@@ -14,9 +14,9 @@ DEFAULT_DATA_ROOT = Path(os.environ.get("MS_LSF_DATA_ROOT", "./data"))
 
 def dataset_catalog(source_root: Path) -> dict[str, dict]:
     return {
-        "IR-DMSTrack": {
-            "detector": "yolov12n",
-            "source": source_root / "IR-DMSTrack",
+        "IR-DMSTrack-v3": {
+            "detector": "det_label",
+            "source": source_root / "IR-DMSTrack-v3",
         },
         "GMOT-40-small-target": {
             "detector": "det_label",
@@ -178,7 +178,7 @@ def prepare_dataset(name: str, info: dict, output_root: Path, overwrite: bool) -
 
 def write_summary(output_root: Path, summaries: list[dict]) -> None:
     write_json(output_root / "clean_layout_summary.json", {"datasets": summaries})
-    with (output_root / "clean_layout_summary.csv").open("w", encoding="utf-8-sig", newline="") as handle:
+    with (output_root / "clean_layout_summary.csv").open("w", encoding="utf-8", newline="") as handle:
         writer = csv.DictWriter(
             handle,
             fieldnames=[

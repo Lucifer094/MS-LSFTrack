@@ -507,7 +507,7 @@ def main() -> None:
         return
 
     if classes is None:
-        raise ImportError("Cannot run baselines without boxmot. Install optional baseline dependencies on AutoDL.")
+        raise ImportError("Cannot run baselines without boxmot. Install the optional baseline dependency first.")
 
     per_scene_fields = [
         "scene",

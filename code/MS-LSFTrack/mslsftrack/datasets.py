@@ -240,11 +240,12 @@ class RealCandidateGroupDataset(Dataset):
 
 
 class MultiScaleRealCandidateGroupDataset(Dataset):
-    """候选组数据集的多尺度局部结构场版本。
+    """Multi-scale local-structure-field dataset for candidate association.
 
-    与单尺度版本不同，这里不把局部结构半径固定为一个 `radius`，而是为
-    每个历史点和候选点同时提取多个半径下的邻域点集。每个尺度内部仍然
-    归一化到 [-1, 1]，因此后续结构场 rasterizer 可以共享同一套网格。
+    Instead of using a single fixed neighborhood radius, the dataset extracts
+    neighbor sets under several radii for each history point and candidate.
+    Each scale is normalized to [-1, 1], so the rasterizer can share the same
+    output grid across all scales.
     """
 
     def __init__(

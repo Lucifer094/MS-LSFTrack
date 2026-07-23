@@ -1,4 +1,4 @@
-﻿query_index,target,prediction,correct,margin
+query_index,target,prediction,correct,margin
 0,0,1,0,-0.06464967131614685
 1,0,1,0,-0.08196353912353516
 2,0,1,0,-0.013056397438049316

@@ -1,70 +1,27 @@
 # MS-LSFTrack
 
-MS-LSFTrack is an association-only multi-object tracking framework for dense small-target tracking. It keeps detector outputs fixed and focuses on learning local spatial structure cues for online track association.
+MS-LSFTrack is an association-only multi-object tracking framework for dense small-target tracking. It uses fixed detector outputs and improves online track association with a density-guided multi-scale local structure field.
 
-This public version matches the paper-v1 frozen setting:
+## Highlights
 
-```text
-tail-anchor ASR
-+ tail-node local structure
-+ density-guided multi-scale local structure field
-```
-
-The repository contains training, online tracking, baseline running, quantitative evaluation, qualitative visualization helpers, and data/TS-AMID diagnostics. It does not include detector training code or the full datasets.
-The public release also bundles a public ReID weight under `weights/reid/` for BoxMOT baselines.
-
-## Paper Model
-
-The released paper setting is:
-
-```text
-Structure branch:
-  structure_radii = 10,15,20
-  scale_mode = learned_density
-  density_prior_direction = normal
-  density_prior_lambda = 0.5
-
-Motion-structure fusion:
-  score_mode = ambiguity_rerank
-  asr_density_gain = 0.0
-
-ASR anchor:
-  last observation / track tail
-
-Structure history:
-  tail-node local structure
-```
-
-Density is used only to guide multi-scale structure fusion. It is not used as an extra gain in the final motion-structure ASR fusion.
+- Detection-agnostic online tracker for small-target MOT.
+- Multi-scale local structure field with radii `10,15,20`.
+- Density-guided scale weighting with `density_prior_lambda=0.5`.
+- Ambiguity-aware motion-structure association.
+- Unified evaluation for point-distance and IoU metrics.
+- Scripts for MS-LSFTrack, BoxMOT baselines, training, evaluation and result aggregation.
 
 ## Repository Layout
 
 ```text
-configs/                 Dataset and experiment configs
-mslsftrack/              Core dataset/model/tracker implementation
-tools/                   Python entry points for training, tracking, evaluation, diagnostics
-scripts/                 Shell wrappers for paper reproduction and common workflows
-third_party/             Unified MOT evaluation and visualization utilities
-docs/                    Reproduction, dataset, code/result mapping documentation
-weights/                 Bundled public weights for baseline reproduction
-DATASET_FORMAT_CN.md     Clean-layout dataset format
-requirements.txt         Python dependencies
+configs/        Dataset and experiment configs
+mslsftrack/     Core dataset, model and tracker implementation
+tools/          Python entry points for training, tracking and evaluation
+scripts/        Shell wrappers for common reproduction commands
+third_party/    Lightweight MOT evaluation and visualization utilities
+docs/           Method and reproduction documentation
+weights/        Public ReID weight for BoxMOT baselines
 ```
-
-The most important paper-reproduction files are:
-
-```text
-scripts/paper_run_ms_lsftrack.sh
-scripts/paper_evaluate_tracker.sh
-scripts/paper_run_boxmot_baselines.sh
-tools/build_cache.py
-tools/train_assoc.py
-tools/run_tracker.py
-tools/evaluate_tracks.py
-tools/run_baseline_trackers.py
-```
-
-See [docs/CODE_AND_RESULTS_MAP_CN.md](docs/CODE_AND_RESULTS_MAP_CN.md) for a full code/result map.
 
 ## Installation
 
@@ -74,11 +31,15 @@ conda activate mslsftrack
 pip install -r requirements.txt
 ```
 
-If you want to reproduce BoxMOT baselines, install a compatible `boxmot` version separately. The release package already includes `weights/reid/osnet_x0_25_msmt17.pt` for ReID-based trackers.
+BoxMOT baselines require an additional compatible `boxmot` installation. A public ReID weight for ReID-based BoxMOT trackers is bundled at:
 
-## Dataset Layout
+```text
+weights/reid/osnet_x0_25_msmt17.pt
+```
 
-Datasets should follow the clean association-only layout:
+## Datasets
+
+Datasets should use the clean association layout described in [DATASET_FORMAT.md](DATASET_FORMAT.md):
 
 ```text
 DatasetRoot/
@@ -88,9 +49,7 @@ DatasetRoot/
 └── splits/{train,val,test,all}.txt
 ```
 
-The spelling `detecion_label` follows the current prepared datasets. See [DATASET_FORMAT_CN.md](DATASET_FORMAT_CN.md) for details.
-
-Set paths with environment variables:
+Set the following paths before running experiments:
 
 ```bash
 export MS_LSF_DATA_ROOT=/path/to/MS-LSFTrack-Datasets
@@ -100,42 +59,49 @@ export MS_LSF_CACHE_ROOT=/path/to/MS-LSFTrack-Cache
 export MS_LSF_WEIGHT_ROOT=/path/to/MS-LSFTrack-Weights
 ```
 
-## Run the Paper Tracker
+Released dataset configs:
 
-With released checkpoints:
+```text
+configs/datasets/irdmstrack_v3_det_label.yaml
+configs/datasets/gmot40_small_det_label.yaml
+configs/datasets/irsatvideo_leo_resunet_rfr.yaml
+```
+
+## Run MS-LSFTrack
+
+Use a released checkpoint from the companion results package:
 
 ```bash
-bash scripts/paper_run_ms_lsftrack.sh \
+bash scripts/run_mslsftrack.sh \
   configs/datasets/irdmstrack_v3_det_label.yaml \
   /path/to/MS-LSFTrack-results/checkpoints/ms_lsf_ird_v3/best.pt \
-  ms_lsf_ird_v3_paper \
+  ms_lsf_ird_v3 \
   test
 ```
 
-Evaluate both point and IoU metrics:
+Evaluate the generated tracks with both point and IoU metrics:
 
 ```bash
-bash scripts/paper_evaluate_tracker.sh \
+bash scripts/evaluate_tracker.sh \
   configs/datasets/irdmstrack_v3_det_label.yaml \
-  ms_lsf_ird_v3_paper \
+  ms_lsf_ird_v3 \
   test
 ```
 
-The wrapper expands to the paper setting:
+The wrapper uses the released setting:
 
-```bash
-python tools/run_tracker.py \
-  --score-mode ambiguity_rerank \
-  --scale-mode learned_density \
-  --structure-radii-override 10,15,20 \
-  --density-prior-direction normal \
-  --density-prior-lambda 0.5 \
-  --asr-density-gain 0.0
+```text
+score_mode = ambiguity_rerank
+scale_mode = learned_density
+structure_radii = 10,15,20
+density_prior_direction = normal
+density_prior_lambda = 0.5
+asr_density_gain = 0.0
 ```
 
 ## Train From Scratch
 
-Build train/val/test association caches:
+Build association caches:
 
 ```bash
 python tools/build_cache.py --dataset configs/datasets/irdmstrack_v3_det_label.yaml --split train --output-dir "$MS_LSF_CACHE_ROOT"
@@ -143,7 +109,7 @@ python tools/build_cache.py --dataset configs/datasets/irdmstrack_v3_det_label.y
 python tools/build_cache.py --dataset configs/datasets/irdmstrack_v3_det_label.yaml --split test --output-dir "$MS_LSF_CACHE_ROOT"
 ```
 
-Train the multi-scale LSF association model:
+Train the multi-scale association model:
 
 ```bash
 python tools/train_assoc.py \
@@ -157,11 +123,9 @@ python tools/train_assoc.py \
   --device cuda
 ```
 
-Run online tracking with the trained checkpoint using `scripts/paper_run_ms_lsftrack.sh`.
-
 ## Baselines
 
-Run non-ReID BoxMOT baselines:
+Run non-ReID BoxMOT trackers:
 
 ```bash
 python tools/run_baseline_trackers.py \
@@ -170,7 +134,7 @@ python tools/run_baseline_trackers.py \
   --trackers bytetrack ocsort sfsort
 ```
 
-Run ReID-based baselines:
+Run ReID-based BoxMOT trackers:
 
 ```bash
 python tools/run_baseline_trackers.py \
@@ -180,25 +144,30 @@ python tools/run_baseline_trackers.py \
   --reid-weights weights/reid/osnet_x0_25_msmt17.pt
 ```
 
-The paper comparison also includes PuTR results if you provide PuTR predictions in the same MOT output format.
+The comparison tables also include PuTR results after converting PuTR outputs to the same MOT text format.
 
-## Released Results
+## Results
 
-The companion result package is organized as:
+The companion results package contains released checkpoints, final tracks, evaluation summaries and paper tables:
 
 ```text
 MS-LSFTrack-results/
-├── summary/       Paper tables and ablations
-├── raw_outputs/   Final tracks, point/IoU eval summaries, runtime summaries
-├── checkpoints/   Released MS-LSFTrack checkpoints
-├── configs/       Dataset/experiment configs used for the frozen run
-└── manifests/     Freeze manifest
+├── checkpoints/
+├── raw_outputs/
+├── summary/
+├── configs/
+└── manifests/
 ```
 
-See the result package `README_CN.md` for exact tracker names and table paths.
+See [docs/RESULTS.md](docs/RESULTS.md) and the results package README for details.
 
-## Notes
+## Documentation
 
-- This repository is the paper-v1 public code. Development experiments about predicted-position ASR and trajectory-level structure memory are intentionally excluded.
-- The project focuses on association; detector training is outside this repository.
-- Before public upload, choose and add an explicit open-source license.
+- [docs/METHOD.md](docs/METHOD.md): model overview.
+- [docs/REPRODUCE.md](docs/REPRODUCE.md): full reproduction commands.
+- [docs/BASELINES.md](docs/BASELINES.md): baseline tracker commands.
+- [docs/RESULTS.md](docs/RESULTS.md): result package layout.
+
+## License
+
+This project is released under the MIT License. See [LICENSE](LICENSE).
