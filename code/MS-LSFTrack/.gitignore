@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+.conda/
+data/cache/
+outputs/
+*.pt
+*.pth
+*.pkl
+
+# Public release assets bundled with the repository.
+!weights/
+!weights/**

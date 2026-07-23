@@ -1,0 +1,26 @@
+# Recommended paper ablation switches.
+# Use these names in reports so every table is easy to trace back to a controlled setting.
+variants:
+  geom_only:
+    score_mode: geometry
+    description: "Geometry head only; removes local structure contribution."
+  nearest_distance:
+    score_mode: distance
+    description: "Pure nearest predicted center baseline."
+  structure_only:
+    score_mode: structure
+    description: "Uses only the learned local structure branch."
+  ms_lsf_full:
+    score_mode: full
+    description: "Full proposed model: geometry + multi-scale local structure field."
+gate_modes:
+  - learned
+  - uniform
+  - small
+  - middle
+  - large
+neighbor_modes:
+  radius:
+    description: "All detections inside each radius are local support points, capped only for memory."
+  knn:
+    description: "K nearest local support points per scale; used as an ablation, not as the default paper claim."

@@ -1,0 +1,2 @@
+﻿tracker,det_version,split,num_scenes,total_frames,total_outputs,total_time_sec,update_time_sec,fps_total,fps_update
+ms_lsf_irsat_final_asr_no_density,ResUNet_RFR,test,40,16992,58692,142.169662,142.169662,119.519170,119.519170

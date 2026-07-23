@@ -1,0 +1,21 @@
+model: multiscale_lsf
+radii: [10.0, 15.0, 20.0]
+neighbor_mode: radius
+max_neighbors: 32
+max_candidates: 8
+gate_radius: 10.0
+max_gate_radius: 16.0
+max_gap: 3
+scale_mode: learned_density
+density_prior_direction: normal
+density_prior_lambda: 0.5
+score_mode: ambiguity_rerank
+asr_density_gain: 0.0
+assignment: hungarian
+score_threshold: -17.0
+max_missing: 20
+min_track_length: 25
+mature_birth_length: 25
+missing_gate_growth: 0.75
+missing_score_penalty: 0.05
+distance_score_weight: 0.0

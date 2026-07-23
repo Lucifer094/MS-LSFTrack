@@ -1,0 +1,2 @@
+﻿tracker,det_version,split,num_scenes,total_frames,total_outputs,total_time_sec,update_time_sec,fps_total,fps_update
+ablate_gmot_fusion_den101520_l05_asr_default_no_fusion_density,det_label,test,8,2346,18733,79.251960,79.251960,29.601791,29.601791

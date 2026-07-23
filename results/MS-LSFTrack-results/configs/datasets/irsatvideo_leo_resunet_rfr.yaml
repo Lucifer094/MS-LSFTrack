@@ -1,0 +1,11 @@
+name: IRSatVideo-LEO
+data_root: "${MS_LSF_DATA_ROOT:-./data}/IRSatVideo-LEO"
+unified_root: "${MS_LSF_OUTPUT_ROOT:-./outputs}/IRSatVideo-LEO"
+det_version: ResUNet_RFR
+detection_root: "${MS_LSF_DATA_ROOT:-./data}/IRSatVideo-LEO/detecion_label"
+gt_root: "${MS_LSF_DATA_ROOT:-./data}/IRSatVideo-LEO"
+split_root: "${MS_LSF_DATA_ROOT:-./data}/IRSatVideo-LEO/splits"
+default_split: test
+point_dist_th: 3.0
+iou_th: 0.5
+notes: Standardized IRSatVideo-LEO layout. Detection source is converted from boxes_ResUNet_RFR to MOT-style detecion_label/{split}/{scene}.txt.
