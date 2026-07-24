@@ -14,7 +14,7 @@ SCHEMAS = {
                 "No",
                 "None",
                 "small",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion_prior_logits only",
             ),
@@ -24,7 +24,7 @@ SCHEMAS = {
                 "Yes",
                 "None",
                 "small",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "normalized small-scale structure logits only",
             ),
@@ -34,7 +34,7 @@ SCHEMAS = {
                 "Yes",
                 "fixed weighted sum",
                 "small",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion=0.50, structure=0.50",
             ),
@@ -44,7 +44,7 @@ SCHEMAS = {
                 "Yes",
                 "Residual gate",
                 "small",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion prior plus ambiguity-gated structure residual",
             ),
@@ -66,7 +66,7 @@ SCHEMAS = {
                 "Single-scale small",
                 "radius 10",
                 "Residual gate",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "fixed small local structure",
             ),
@@ -74,7 +74,7 @@ SCHEMAS = {
                 "Single-scale middle",
                 "radius 20",
                 "Residual gate",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "fixed middle local structure",
             ),
@@ -82,7 +82,7 @@ SCHEMAS = {
                 "Single-scale large",
                 "radius 30",
                 "Residual gate",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "fixed large local structure",
             ),
@@ -90,7 +90,7 @@ SCHEMAS = {
                 "Uniform multi-scale",
                 "1/3, 1/3, 1/3",
                 "Residual gate",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "non-learned multi-scale average",
             ),
@@ -98,7 +98,7 @@ SCHEMAS = {
                 "Learned multi-scale",
                 "learned gate",
                 "Residual gate",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "current learned scale weights",
             ),
@@ -110,35 +110,35 @@ SCHEMAS = {
             "fixed_m0p75": (
                 "Fixed 0.75/0.25",
                 "fixed weighted sum",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion=0.75, structure=0.25",
             ),
             "fixed_m0p5": (
                 "Fixed 0.50/0.50",
                 "fixed weighted sum",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion=0.50, structure=0.50",
             ),
             "fixed_m0p25": (
                 "Fixed 0.25/0.75",
                 "fixed weighted sum",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion=0.25, structure=0.75",
             ),
             "residual": (
                 "Residual gate",
                 "ambiguity-gated structure residual",
-                "ms_lsf_ird/best.pt",
+                "MS-LSFTrack/best.pt",
                 "No",
                 "motion prior plus gated centered structure residual",
             ),
             "competitive": (
                 "Competitive reliability gate",
                 "dynamic motion/structure weights",
-                "ms_lsf_ird_competitive/best.pt",
+                "MS-LSFTrack_competitive/best.pt",
                 "Yes",
                 "trained softmax gate over motion and structure experts",
             ),
@@ -231,9 +231,9 @@ def make_rows(
         suffix = variant_suffix(row["tracker"], list(meta))
         values = meta.get(suffix, (row["tracker"], suffix, ""))
         pretty = dict(zip(spec["columns"], values))
-        if "Checkpoint" in pretty and pretty["Checkpoint"] == "ms_lsf_ird/best.pt":
+        if "Checkpoint" in pretty and pretty["Checkpoint"] == "MS-LSFTrack/best.pt":
             pretty["Checkpoint"] = checkpoint_label
-        if "Checkpoint" in pretty and pretty["Checkpoint"] == "ms_lsf_ird_competitive/best.pt":
+        if "Checkpoint" in pretty and pretty["Checkpoint"] == "MS-LSFTrack_competitive/best.pt":
             pretty["Checkpoint"] = competitive_checkpoint_label
         for key in METRIC_COLUMNS:
             pretty[key] = format_value(row, key)
@@ -270,8 +270,8 @@ def main() -> None:
     parser.add_argument("--output-csv", type=Path, required=True)
     parser.add_argument("--output-md", type=Path, required=True)
     parser.add_argument("--title", default="Ablation Metric Details")
-    parser.add_argument("--checkpoint-label", default="ms_lsf_ird/best.pt")
-    parser.add_argument("--competitive-checkpoint-label", default="ms_lsf_ird_competitive/best.pt")
+    parser.add_argument("--checkpoint-label", default="MS-LSFTrack/best.pt")
+    parser.add_argument("--competitive-checkpoint-label", default="MS-LSFTrack_competitive/best.pt")
     args = parser.parse_args()
 
     with args.input.open("r", encoding="utf-8-sig", newline="") as handle:

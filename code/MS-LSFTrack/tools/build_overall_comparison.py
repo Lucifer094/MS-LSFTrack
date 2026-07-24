@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -18,9 +19,9 @@ from unified_eval_suite.io import ensure_dir, read_csv_dicts, write_csv_dicts
 
 
 DATASETS = [
-    ("configs/datasets/irdmstrack_v3_det_label.yaml", "ms_lsf_ird"),
-    ("configs/datasets/gmot40_small_det_label.yaml", "ms_lsf_gmot"),
-    ("configs/datasets/irsatvideo_leo_resunet_rfr.yaml", "ms_lsf_irsat"),
+    ("configs/datasets/irdmstrack_v3_det_label.yaml", "MS-LSFTrack"),
+    ("configs/datasets/gmot40_small_det_label.yaml", "MS-LSFTrack"),
+    ("configs/datasets/irsatvideo_leo_resunet_rfr.yaml", "MS-LSFTrack"),
 ]
 
 METHOD_NAMES = {
@@ -32,9 +33,7 @@ METHOD_NAMES = {
     "deepocsort": "DeepOCSORT",
     "hybridsort": "HybridSORT",
     "boosttrack": "BoostTrack",
-    "ms_lsf_ird": "MS-LSFTrack",
-    "ms_lsf_gmot": "MS-LSFTrack",
-    "ms_lsf_irsat": "MS-LSFTrack",
+    "MS-LSFTrack": "MS-LSFTrack",
     "putr": "PuTR",
 }
 
@@ -188,8 +187,17 @@ def main() -> None:
     macro_path = out_dir / f"all_datasets_{args.split}_macro_average.csv"
     markdown_path = out_dir / f"all_datasets_{args.split}_comparison.md"
 
-    paper_fields = ["method"] + [key for row in rows for key in row.keys() if key != "method"]
-    paper_fields = list(dict.fromkeys(paper_fields))
+    paper_fields = [
+        "dataset",
+        "method",
+        "Pt-HOTA",
+        "Pt-IDF1",
+        "Pt-MOTA",
+        "IoU-HOTA",
+        "IoU-IDF1",
+        "IoU-MOTA",
+        "fps_update",
+    ]
     write_csv_dicts(paper_path, rows, paper_fields)
 
     macro_rows = build_macro(rows)

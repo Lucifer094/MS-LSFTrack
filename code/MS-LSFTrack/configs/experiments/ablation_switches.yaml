@@ -11,14 +11,14 @@ variants:
     density_prior_direction: normal
     density_prior_lambda: 0.5
     description: "Density-guided multi-scale structure-only setting."
-  final_asr_no_fusion_density:
+  MS-LSFTrack:
     score_mode: ambiguity_rerank
     scale_mode: learned_density
     structure_radii: [10, 15, 20]
     density_prior_direction: normal
     density_prior_lambda: 0.5
     asr_density_gain: 0.0
-    description: "Released model: density guides multi-scale structure; ASR fusion has no density gain."
+    description: "Released MS-LSFTrack setting."
 scale_modes:
   - uniform
   - small

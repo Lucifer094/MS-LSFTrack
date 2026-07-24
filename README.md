@@ -30,4 +30,4 @@ MS-LSFTrack-GitHub-Release-20260717/
 - comparison and ablation tables,
 - configs used to produce the released results.
 
-The dataset files are not included. Prepare datasets using the clean layout described in `code/MS-LSFTrack/DATASET_FORMAT.md`.
+The dataset files are not included in this release package. Download links and placement instructions are provided in `code/MS-LSFTrack/docs/DATASETS.md`.

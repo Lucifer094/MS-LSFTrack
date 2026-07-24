@@ -14,20 +14,16 @@ MS-LSFTrack-results/
 ## Checkpoints
 
 ```text
-checkpoints/ms_lsf_ird_v3/best.pt
-checkpoints/ms_lsf_gmot/best.pt
-checkpoints/ms_lsf_irsat/best.pt
+checkpoints/IR-DMSTrack-v3/best.pt
+checkpoints/GMOT-40-small-target/best.pt
+checkpoints/IRSatVideo-LEO/best.pt
 ```
 
 These checkpoints can be passed directly to `scripts/run_mslsftrack.sh`.
 
-## Final Tracker Names
+## Released Method Name
 
-| Dataset | Tracker name in released raw outputs |
-| --- | --- |
-| IR-DMSTrack-v3 | `ms_lsf_ird_v3` |
-| GMOT-40-small-target | `ms_lsf_gmot` |
-| IRSatVideo-LEO | `ms_lsf_irsat` |
+All released raw outputs use `MS-LSFTrack` as the tracker name. Dataset-specific checkpoints are stored under dataset directories.
 
 ## Summary Tables
 

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Usage:
-#   bash scripts/quickstart.sh configs/datasets/irdmstrack_v3_det_label.yaml ms_lsf_ird cuda
+#   bash scripts/quickstart.sh configs/datasets/irdmstrack_v3_det_label.yaml MS-LSFTrack cuda
 #
 # Optional environment variables:
 #   MS_LSF_DATA_ROOT=/path/to/MS-LSFTrack-Datasets

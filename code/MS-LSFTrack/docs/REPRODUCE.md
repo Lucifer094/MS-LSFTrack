@@ -16,6 +16,8 @@ If `MS_LSF_WEIGHT_ROOT` is not set, scripts use `./weights`. The bundled ReID we
 
 ## Dataset Configs
 
+Download links and placement instructions are provided in [DATASETS.md](DATASETS.md).
+
 ```text
 configs/datasets/irdmstrack_v3_det_label.yaml
 configs/datasets/gmot40_small_det_label.yaml
@@ -31,13 +33,13 @@ IR-DMSTrack-v3:
 ```bash
 bash scripts/run_mslsftrack.sh \
   configs/datasets/irdmstrack_v3_det_label.yaml \
-  /path/to/MS-LSFTrack-results/checkpoints/ms_lsf_ird_v3/best.pt \
-  ms_lsf_ird_v3 \
+  /path/to/MS-LSFTrack-results/checkpoints/IR-DMSTrack-v3/best.pt \
+  MS-LSFTrack \
   test
 
 bash scripts/evaluate_tracker.sh \
   configs/datasets/irdmstrack_v3_det_label.yaml \
-  ms_lsf_ird_v3 \
+  MS-LSFTrack \
   test
 ```
 
@@ -46,13 +48,13 @@ GMOT-40-small-target:
 ```bash
 bash scripts/run_mslsftrack.sh \
   configs/datasets/gmot40_small_det_label.yaml \
-  /path/to/MS-LSFTrack-results/checkpoints/ms_lsf_gmot/best.pt \
-  ms_lsf_gmot \
+  /path/to/MS-LSFTrack-results/checkpoints/GMOT-40-small-target/best.pt \
+  MS-LSFTrack \
   test
 
 bash scripts/evaluate_tracker.sh \
   configs/datasets/gmot40_small_det_label.yaml \
-  ms_lsf_gmot \
+  MS-LSFTrack \
   test
 ```
 
@@ -61,13 +63,13 @@ IRSatVideo-LEO:
 ```bash
 bash scripts/run_mslsftrack.sh \
   configs/datasets/irsatvideo_leo_resunet_rfr.yaml \
-  /path/to/MS-LSFTrack-results/checkpoints/ms_lsf_irsat/best.pt \
-  ms_lsf_irsat \
+  /path/to/MS-LSFTrack-results/checkpoints/IRSatVideo-LEO/best.pt \
+  MS-LSFTrack \
   test
 
 bash scripts/evaluate_tracker.sh \
   configs/datasets/irsatvideo_leo_resunet_rfr.yaml \
-  ms_lsf_irsat \
+  MS-LSFTrack \
   test
 ```
 
@@ -87,7 +89,7 @@ python tools/train_assoc.py \
   --train-cache "$MS_LSF_CACHE_ROOT/IR-DMSTrack-v3/det_label/train.pkl" \
   --val-cache "$MS_LSF_CACHE_ROOT/IR-DMSTrack-v3/det_label/val.pkl" \
   --test-cache "$MS_LSF_CACHE_ROOT/IR-DMSTrack-v3/det_label/test.pkl" \
-  --output "$MS_LSF_RUN_ROOT/ms_lsf_ird_v3" \
+  --output "$MS_LSF_RUN_ROOT/MS-LSFTrack" \
   --device cuda
 ```
 

@@ -39,6 +39,16 @@ weights/reid/osnet_x0_25_msmt17.pt
 
 ## Datasets
 
+The prepared datasets used in the paper can be downloaded from the following links:
+
+| Dataset | Archive | Download | Extraction code | Expected directory |
+| --- | --- | --- | --- | --- |
+| IR-DMSTrack-v3 | `IR-DMSTrack.zip` | [Baidu Netdisk](https://pan.baidu.com/s/1nXpu_Ts6t3ANxCXyrYR4SQ) | `sbn4` | `$MS_LSF_DATA_ROOT/IR-DMSTrack-v3` |
+| GMOT-40-small-target | `GMOT-40-small-target.zip` | [Baidu Netdisk](https://pan.baidu.com/s/1oue_l778O-Mk_FJPIjKsEA) | `j7hk` | `$MS_LSF_DATA_ROOT/GMOT-40-small-target` |
+| IRSatVideo-LEO | `IRSatVideo-LEO.zip` | [Baidu Netdisk](https://pan.baidu.com/s/1To1X7HW0Rk-49BNZPG19-A) | `mgwr` | `$MS_LSF_DATA_ROOT/IRSatVideo-LEO` |
+
+The released `IR-DMSTrack.zip` archive corresponds to `IR-DMSTrack-v3` in the configs and result tables. See [docs/DATASETS.md](docs/DATASETS.md) for dataset notes.
+
 Datasets should use the clean association layout described in [DATASET_FORMAT.md](DATASET_FORMAT.md):
 
 ```text
@@ -74,8 +84,8 @@ Use a released checkpoint from the companion results package:
 ```bash
 bash scripts/run_mslsftrack.sh \
   configs/datasets/irdmstrack_v3_det_label.yaml \
-  /path/to/MS-LSFTrack-results/checkpoints/ms_lsf_ird_v3/best.pt \
-  ms_lsf_ird_v3 \
+  /path/to/MS-LSFTrack-results/checkpoints/IR-DMSTrack-v3/best.pt \
+  MS-LSFTrack \
   test
 ```
 
@@ -84,7 +94,7 @@ Evaluate the generated tracks with both point and IoU metrics:
 ```bash
 bash scripts/evaluate_tracker.sh \
   configs/datasets/irdmstrack_v3_det_label.yaml \
-  ms_lsf_ird_v3 \
+  MS-LSFTrack \
   test
 ```
 
@@ -119,7 +129,7 @@ python tools/train_assoc.py \
   --train-cache "$MS_LSF_CACHE_ROOT/IR-DMSTrack-v3/det_label/train.pkl" \
   --val-cache "$MS_LSF_CACHE_ROOT/IR-DMSTrack-v3/det_label/val.pkl" \
   --test-cache "$MS_LSF_CACHE_ROOT/IR-DMSTrack-v3/det_label/test.pkl" \
-  --output "$MS_LSF_RUN_ROOT/ms_lsf_ird_v3" \
+  --output "$MS_LSF_RUN_ROOT/MS-LSFTrack" \
   --device cuda
 ```
 
@@ -164,6 +174,7 @@ See [docs/RESULTS.md](docs/RESULTS.md) and the results package README for detail
 ## Documentation
 
 - [docs/METHOD.md](docs/METHOD.md): model overview.
+- [docs/DATASETS.md](docs/DATASETS.md): dataset download links and placement.
 - [docs/REPRODUCE.md](docs/REPRODUCE.md): full reproduction commands.
 - [docs/BASELINES.md](docs/BASELINES.md): baseline tracker commands.
 - [docs/RESULTS.md](docs/RESULTS.md): result package layout.

@@ -22,9 +22,9 @@ IRSatVideo-LEO
 Released checkpoints:
 
 ```text
-checkpoints/ms_lsf_ird_v3/best.pt
-checkpoints/ms_lsf_gmot/best.pt
-checkpoints/ms_lsf_irsat/best.pt
+checkpoints/IR-DMSTrack-v3/best.pt
+checkpoints/GMOT-40-small-target/best.pt
+checkpoints/IRSatVideo-LEO/best.pt
 ```
 
 Summary tables:

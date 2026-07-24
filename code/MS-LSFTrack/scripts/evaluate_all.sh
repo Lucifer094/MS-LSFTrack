@@ -4,7 +4,7 @@ set -euo pipefail
 # Check, evaluate and summarize a tracker list for one clean-layout dataset.
 #
 # Example:
-#   TRACKERS="bytetrack ocsort sfsort ms_lsf_ird" \
+#   TRACKERS="bytetrack ocsort sfsort MS-LSFTrack" \
 #   bash scripts/evaluate_all.sh configs/datasets/irdmstrack_v3_det_label.yaml test
 
 DATASET_CONFIG="${1:-configs/datasets/irdmstrack_v3_det_label.yaml}"
@@ -12,7 +12,7 @@ SPLIT="${2:-test}"
 export MS_LSF_DATA_ROOT="${MS_LSF_DATA_ROOT:-${PWD}/data}"
 export MS_LSF_OUTPUT_ROOT="${MS_LSF_OUTPUT_ROOT:-${PWD}/outputs}"
 
-TRACKERS="${TRACKERS:-bytetrack ocsort sfsort ms_lsf_ird}"
+TRACKERS="${TRACKERS:-bytetrack ocsort sfsort MS-LSFTrack}"
 
 python tools/check_results.py \
   --dataset "${DATASET_CONFIG}" \

@@ -7,8 +7,8 @@ if [ "$#" -lt 3 ]; then
   echo "Example:"
   echo "  bash scripts/run_mslsftrack.sh \\"
   echo "    configs/datasets/irdmstrack_v3_det_label.yaml \\"
-  echo "    /path/to/checkpoints/ms_lsf_ird_v3/best.pt \\"
-  echo "    ms_lsf_ird_v3 test"
+  echo "    /path/to/checkpoints/IR-DMSTrack-v3/best.pt \\"
+  echo "    MS-LSFTrack test"
   exit 2
 fi
 
