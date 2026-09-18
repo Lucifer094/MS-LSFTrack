@@ -3,7 +3,7 @@
 This package contains the public code and released results for MS-LSFTrack.
 
 ```text
-MS-LSFTrack-GitHub-Release-20260717/
+MS-LSFTrack/
 ├── code/
 │   └── MS-LSFTrack/
 └── results/
